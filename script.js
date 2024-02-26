@@ -518,4 +518,23 @@ window.onclick = function(event) {
         closeModal();
     }
 }
+
+function setupChangePINButton() {
+    const changePINButton = document.getElementById('change-pin-button');
+    changePINButton.addEventListener('click', function() {
+        const oldPIN = prompt("Enter old PIN:");
+        if (oldPIN !== parentalPIN) {
+            alert("Incorrect old PIN.");
+            return;
+        }
+
+        const newPIN = prompt("Enter new PIN (4 to 8 digits):");
+        if (newPIN && newPIN.length >= 4 && newPIN.length <= 8 && /^\d+$/.test(newPIN)) {
+            parentalPIN = newPIN;
+            alert("PIN changed successfully.");
+        } else {
+            alert("Invalid PIN. Must be 4 to 8 digits.");
+        }
+    });
+}
     renderSchedule(data.TVSchedule.channels);
