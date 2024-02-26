@@ -537,4 +537,17 @@ function setupChangePINButton() {
         }
     });
 }
+window.rateProgram = function(programName, rating) {
+  const programToRate = data.TVSchedule.channels.flatMap(channel => channel.programs).find(program => program.name === programName);
+
+  if (programToRate) {
+      programToRate.rating = rating;
+
+      viewProgramDetails(programToRate);
     renderSchedule(data.TVSchedule.channels);
+
+      alert(`You rated ${programName} a ${rating} out of 5.`);
+  } else {
+      alert(`Program not found: ${programName}`);
+  }
+};
