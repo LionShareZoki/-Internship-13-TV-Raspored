@@ -473,4 +473,9 @@ function renderSchedule(channels) {
       </div>
   `).join('');
 }
+window.viewProgramDetails = function(program) {
+  if (program.adult && !confirmParentalPIN()) {
+      alert("Incorrect PIN. Access denied.");
+      return;
+  }
     renderSchedule(data.TVSchedule.channels);
