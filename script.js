@@ -537,6 +537,29 @@ function setupChangePINButton() {
         }
     });
 }
+
+window.addToWatchlist = function(program) {
+  const programExists = watchlist.some(item => item.name === program.name);
+  if (!programExists) {
+      watchlist.push(program);
+      updateWatchlistDisplay();
+  }
+};
+
+window.removeFromWatchlist = function(programName) {
+  watchlist = watchlist.filter(item => item.name !== programName);
+  updateWatchlistDisplay();
+};
+
+function updateWatchlistDisplay() {
+    const watchlistElement = document.getElementById('watchlist');
+    if (watchlistElement) {
+        watchlistElement.innerHTML = watchlist.map(program => `
+            <div>${program.name} <button onclick="removeFromWatchlist('${program.name}')">Remove</button></div>
+        `).join('');
+    }
+}
+
 window.rateProgram = function(programName, rating) {
   const programToRate = data.TVSchedule.channels.flatMap(channel => channel.programs).find(program => program.name === programName);
 
