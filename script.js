@@ -425,3 +425,6 @@ export const data = {
   }
 }
 
+let parentalPIN = "1234";
+
+let watchlist = [];
