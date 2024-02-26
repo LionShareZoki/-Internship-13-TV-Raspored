@@ -432,3 +432,45 @@ let watchlist = [];
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
 });
+
+function renderSchedule(channels) {
+  const categoryFilter = document.getElementById('category-filter').value;
+  const ratingFilter = document.getElementById('rating-filter').value;
+  const inWatchlistFilter = document.getElementById('watchlist-filter').checked;
+
+  const filteredChannels = channels.map(channel => ({
+    ...channel,
+    programs: channel.programs.filter(program => {
+      const passCategoryFilter = categoryFilter === '' || program.category === categoryFilter;
+
+      const passRatingFilter = ratingFilter === '' || (program.rating !== undefined && program.rating.toString() === ratingFilter);
+
+      const passWatchlistFilter = !inWatchlistFilter || watchlist.some(item => item.name === program.name);
+
+      return passCategoryFilter && passRatingFilter && passWatchlistFilter;
+    })
+  }));
+
+  const scheduleElement = document.getElementById('schedule');
+  scheduleElement.innerHTML = filteredChannels.map(channel => `
+      <div class="channel-container">
+          <h2>${channel.name}</h2>
+          <div class="shows-container">
+              ${channel.programs.map(program => `
+                  <div class="show">
+                      <h3>${program.name}</h3>
+                      <p>Start Time: ${program.start_time}</p>
+                      <p>End Time: ${program.end_time}</p>
+                      <p>Category: ${program.category}</p>
+                      <p>Rerun: ${program.is_rerun ? 'Yes' : 'No'}</p>
+                      <p>Rating: ${program.rating !== undefined ? program.rating : 'Not rated'}</p>
+                      <p>Channel: ${program.channel}</p>
+                      <button onclick='viewProgramDetails(${JSON.stringify(program)})'>View Details</button>
+                      <button onclick='addToWatchlist(${JSON.stringify(program)})'>Add to Watchlist</button>
+                  </div>
+              `).join('')}
+          </div>
+      </div>
+  `).join('');
+}
+    renderSchedule(data.TVSchedule.channels);
