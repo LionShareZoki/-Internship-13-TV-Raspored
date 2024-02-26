@@ -500,4 +500,22 @@ window.viewProgramDetails = function(program) {
 
   showModal(detailsHTML);
 };
+function showModal(content) {
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    modalBody.innerHTML = content;
+    modal.style.display = "block";
+}
+
+window.closeModal = function() {
+    const modal = document.getElementById('modal');
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
     renderSchedule(data.TVSchedule.channels);
