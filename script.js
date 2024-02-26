@@ -500,6 +500,13 @@ window.viewProgramDetails = function(program) {
 
   showModal(detailsHTML);
 };
+
+
+function confirmParentalPIN() {
+    const userPIN = prompt("Enter PIN for adult content:");
+    return userPIN === parentalPIN;
+}
+
 function showModal(content) {
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
