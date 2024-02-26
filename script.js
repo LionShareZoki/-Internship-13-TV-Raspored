@@ -433,6 +433,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
 });
 
+function initApp() {
+    renderSchedule(data.TVSchedule.channels);
+    setupChangePINButton();
+    updateWatchlistDisplay();
+    setupFilterListeners();
+}
+
+function setupFilterListeners() {
+  const categoryFilter = document.getElementById('category-filter');
+  const ratingFilter = document.getElementById('rating-filter');
+  const watchlistFilter = document.getElementById('watchlist-filter');
+
+  categoryFilter.addEventListener('change', renderSchedule.bind(null, data.TVSchedule.channels));
+  ratingFilter.addEventListener('change', renderSchedule.bind(null, data.TVSchedule.channels));
+  watchlistFilter.addEventListener('change', renderSchedule.bind(null, data.TVSchedule.channels));
+}
 function renderSchedule(channels) {
   const categoryFilter = document.getElementById('category-filter').value;
   const ratingFilter = document.getElementById('rating-filter').value;
@@ -473,6 +489,8 @@ function renderSchedule(channels) {
       </div>
   `).join('');
 }
+
+
 window.viewProgramDetails = function(program) {
   if (program.adult && !confirmParentalPIN()) {
       alert("Incorrect PIN. Access denied.");
@@ -574,7 +592,7 @@ window.rateProgram = function(programName, rating) {
       programToRate.rating = rating;
 
       viewProgramDetails(programToRate);
-    renderSchedule(data.TVSchedule.channels);
+      renderSchedule(data.TVSchedule.channels);
 
       alert(`You rated ${programName} a ${rating} out of 5.`);
   } else {
