@@ -478,4 +478,26 @@ window.viewProgramDetails = function(program) {
       alert("Incorrect PIN. Access denied.");
       return;
   }
+
+  const currentRating = program.rating !== undefined ? program.rating : 'Not rated';
+
+  const detailsHTML = `
+      <h2>${program.name}</h2>
+      <p><strong>Start Time:</strong> ${program.start_time}</p>
+      <p><strong>End Time:</strong> ${program.end_time}</p>
+      <p><strong>Description:</strong> ${program.description}</p>
+      <p><strong>Category:</strong> ${program.category}</p>
+      <p><strong>Rerun:</strong> ${program.is_rerun ? 'Yes' : 'No'}</p>
+      <p><strong>Rating:</strong> <span id="rating-value">${currentRating}</span></p>
+      <div id="rating-controls">
+          Rate this program:
+          ${[1, 2, 3, 4, 5].map(ratingNum => {
+              return `<button onclick="rateProgram('${program.name}', ${ratingNum})">${ratingNum}</button>`
+          }).join('')}
+      </div>
+      <p><strong>Channel:</strong> ${program.channel}</p>
+  `;
+
+  showModal(detailsHTML);
+};
     renderSchedule(data.TVSchedule.channels);
